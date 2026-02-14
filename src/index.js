@@ -2,30 +2,35 @@
 
 // CLI Type Game - Main Entry Point
 const InputHandler = require('../lib/inputHandler');
-
-console.log('CLI Type Game v0.0.1');
-console.log('Starting typing practice session...\n');
-console.log('Type something (Ctrl+C to exit):\n');
+const DisplayHandler = require('../lib/displayHandler');
 
 const inputHandler = new InputHandler();
+const displayHandler = new DisplayHandler();
 
-// Listen for character input
+// Generate 10 random words
+displayHandler.generateSessionWords();
+displayHandler.displayWords();
+
+// Listen for character input - display it on screen
 inputHandler.on('onChar', (char, fullInput) => {
-  process.stdout.write(char); // Echo the character to screen
+  process.stdout.write(char);
 });
 
-// Listen for backspace
+// Listen for backspace - erase character
 inputHandler.on('onBackspace', (fullInput) => {
-  process.stdout.write('\b \b'); // Backspace, space, backspace (erase character)
+  process.stdout.write('\b \b');
 });
 
-// Listen for enter
+// Listen for enter - end session
 inputHandler.on('onEnter', (fullInput) => {
-  console.log('\n\nYou typed: ' + fullInput);
+  console.log('\n\n════════════════════════════════════════');
+  console.log('Session ended!');
+  console.log('You typed: ' + fullInput);
+  console.log('════════════════════════════════════════');
   process.exit(0);
 });
 
-// Listen for exit
+// Listen for exit (Ctrl+C)
 inputHandler.on('onExit', () => {
   console.log('\n\nGoodbye!');
 });
